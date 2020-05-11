@@ -1,0 +1,25 @@
+{
+  "name": "block-tech",
+  "version": "1.0.0",
+  "description": "This is to test this out. Later maybe for more.",
+  "main": "java.js",
+  "scripts": {
+    "test": "nodemon java.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ParvinBDJ"
+  },
+  "author": "Parvin Bungenberg de Jong",
+  "license": "MIT",
+  "dependencies": {
+    "browserify": "^16.5.1",
+    "camelcase": "^6.0.0",
+    "lodash": "^4.17.15",
+    "nodemon": "^2.0.3"
+  },
+  "devDependencies": {
+    "webpack": "^4.43.0"
+  },
+  "keywords": []
+}
