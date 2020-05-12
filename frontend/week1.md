@@ -99,4 +99,4 @@ JavaScript code can manipulate an element’s style directly through its style p
 
 ### Feelings with the exercise
 I had to search a lot online and in the end i didn't do it all by myself because I found it too hard too do. I hope you
-will understeand and I hope I will get some explanation with it.
+will understeand and I hope I will get some explanation with it. I used (this)[https://github.com/briennakh/javascript-practice/blob/master/eloquent-javascript/13.2.%20Elements%20by%20tag%20name.html] source for further information.
