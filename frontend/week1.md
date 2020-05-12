@@ -64,3 +64,33 @@ The way a document is displayed can be influenced by styling, both by attaching 
 by defining rules that match certain nodes. There are many different style properties, such as color or display. 
 JavaScript code can manipulate an element’s style directly through its style property.
 
+## Exercise with Chapter 14
+```javascript
+<h1>Heading with a <span>span</span> element.</h1>
+<p>A paragraph with <span>one</span>, <span>two</span>
+  spans.</p>
+
+<script>
+  function byTagName(node, tagName) {
+    var arr = [];
+    tagName = tagName.toUpperCase();
+ 
+  	function zoek(node) {
+      for (var i = 0; i < node.childNodes.length; i++) {
+        var child = node.childNodes[i];
+        if (child.nodeType == document.ELEMENT_NODE) {
+          if (child.nodeName == tagName)
+            found.push(child);
+          zoek(child);
+        }
+      }
+  }
+    
+  console.log(byTagName(document.body, "h1").length);
+  // → 1
+  console.log(byTagName(document.body, "span").length);
+  // → 3
+  let para = document.querySelector("p");
+  console.log(byTagName(para, "span").length);
+  // → 2
+</script>
