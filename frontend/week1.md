@@ -11,9 +11,10 @@ for other computers to start talking to it (called: client). To be able to liste
 at the same time on a single machine, each listener has a number (called a port) associated with it.
 
 Each document on the Web is named by a Uniform Resource Locator (URL), which looks something like this:
-
+```javascript
 _￼https://www.webnexus.nl/wat-is-een-url/_
 |    1  |        2      |       3       |
+```
 
 Most URL's are split up in 3 parts (See above). See below for what they mean
 1. protocol
