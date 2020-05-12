@@ -94,3 +94,8 @@ JavaScript code can manipulate an element’s style directly through its style p
   console.log(byTagName(para, "span").length);
   // → 2
 </script>
+```
+
+### Feelings with the exercise
+I had to search a lot online and in the end i didn't do it all by myself because I found it too hard too do. I hope you
+will understeand and I hope I will get some explanation with it.
