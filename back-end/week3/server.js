@@ -1,60 +1,101 @@
-var express = require("express");
-var handlebars = require("express-handlebars");
-var path = require("path");
-var app = express();
-var port = process.env.PORT || 3000;
-var slug = require('slug')
-var bodyParser = require('body-parser');
-var arr = {};
+const express = require('express');
 
-app.listen(3000, function listen(){
-console.log("app started at port:", port);
-})
+const handlebars = require('express-handlebars');
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+const path = require('path');
 
-app.set("views", path.join(__dirname, 'views'));
-app.engine('handlebars', handlebars({defaultLayout: "main"}));
-app.set("view engine", "handlebars");
+const bodyParser = require('body-parser');
+
+const slug = require('slug');
+
+const mongodb = require('mongodb');
+
+const MongoClient = require('mongodb').MongoClient;
+
+require('dotenv').config();
+
+const url = process.env.MONGO_URL;
+const app = express();
+const port = process.env.PORT || 3000;
+
+
+function listen() {
+  // eslint-disable-next-line no-console
+  console.log('app started at port:', port);
+}
+app.listen(3000, listen);
+
+
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+app.set('views', path.join(__dirname, 'views'));
+app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
 app.use(express.static('website'));
 
-app.get("/", home);
-function home(request, respone){
- respone.send("<h1>Welcome op mijn site!</h1> <p>Hier ga ik formulieren testen. Wil jij het ook teseten? klik dan op deze <a href='http://localhost:3000/form.html'>link</a?</p>");
+function home(request, respone) {
+  respone.render('form.handlebars');
 }
+app.get('/', home);
 
-app.post('/movie', urlencodedParser, volgendeFilm);
-function volgendeFilm(request, response){
-  movieChoiceOne = request.body.movie;
-  response.render('volgendeFilm-succes', {data: request.body}); 
+function volgendeFilm(request, response) {
+  response.render('volgendeFilm-succes', { data: request.body });
 }
+app.post('/volgendeFilm-succes', urlencodedParser, volgendeFilm);
 
+function filmDaarop(request, response) {
+  response.render('filmDaarna', { data: request.body });
+}
 app.post('/movie1', urlencodedParser, filmDaarop);
-function filmDaarop(request, response){
-  console.log(request.body);
-  response.render('filmDaarna', {data: request.body});
-}
 
-app.post('/succes', urlencodedParser, succesMan);
-function succesMan(request, response){
-  response.render('succes', {data: request.body});
+function succesMan(request, response) {
+  response.render('succes', { data: request.body });
 }
+app.post('/succes', urlencodedParser, succesMan);
 
 const addMovie = {
-  id: "",
+  id: '',
   title: '',
-  description: ''
-} 
+  description: '',
+};
+
+function add(request, response) {
+  const id = slug(request.body.title).toLocaleLowerCase();
+
+  addMovie.push({
+    id,
+    title: request.body.title,
+    description: request.body.description,
+  });
+  // eslint-disable-next-line prefer-template
+  response.redirect('/' + id);
+}
 
 app.post('/add', urlencodedParser, add);
 
-function add(request, response){
-  var id = slug(request.body.title).toLocaleLowerCase();
+app.get('/users', (req, res) => {
+	MongoClient.connect(url, (err, client) => {
+		const db = client.db('datingSite');
 
-  addMovie.push({
-    id: id,
-    title: request.body.title,
-    description: request.body.description
-  })
-  response.redirect('/' + id);
-}
+		if (err) {
+			console.log('MongoDB Error:' + err);
+		} else {
+			console.log('MongoDB Connected!');
+
+			const users = db.collection('user');
+
+			users.find({}).toArray((err, result) => {
+				if (err) {
+					res.send(err);
+				} else if (result.length) {
+					res.render('types/index/user', {
+						'userlist': result
+					});
+				} else {
+					res.send('No data found');
+				}
+			});
+      client.close();
+       }
+  });
+});
