@@ -1,3 +1,4 @@
+// Setup for all dependencies
 const express = require('express');
 
 const handlebars = require('express-handlebars');
@@ -6,17 +7,41 @@ const path = require('path');
 
 const bodyParser = require('body-parser');
 
-const slug = require('slug');
-
 const mongodb = require('mongodb');
 
-const MongoClient = require('mongodb').MongoClient;
+const session = require('express-session');
+
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 require('dotenv').config();
 
 const url = process.env.MONGO_URL;
 const app = express();
 const port = process.env.PORT || 3000;
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const nameID = 'sid';
+let db = null;
+const sessionSecret = process.env.SESSION_SECRET;
+const storeThing = new MongoDBStore({ // Hulp van Victor
+  uri: url,
+  collection: 'session',
+});
+storeThing.on('error', (err) => {
+  console.log('error with sessions' + err);
+});
+
+
+app.use(session({
+  name: nameID,
+  secret: sessionSecret,
+  resafe: false,
+  saveUninitialized: false,
+  store: storeThing,
+  cookie: {
+    sameSite: true,
+    secure: false,
+  },
+}));
 
 
 function listen() {
@@ -24,9 +49,6 @@ function listen() {
   console.log('app started at port:', port);
 }
 app.listen(3000, listen);
-
-
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
@@ -36,66 +58,55 @@ app.use(express.static('website'));
 function home(request, respone) {
   respone.render('form.handlebars');
 }
-app.get('/', home);
+app.get('/', urlencodedParser, home);
+
 
 function volgendeFilm(request, response) {
   response.render('volgendeFilm-succes', { data: request.body });
 }
 app.post('/volgendeFilm-succes', urlencodedParser, volgendeFilm);
 
-function filmDaarop(request, response) {
-  response.render('filmDaarna', { data: request.body });
-}
-app.post('/movie1', urlencodedParser, filmDaarop);
 
 function succesMan(request, response) {
   response.render('succes', { data: request.body });
 }
 app.post('/succes', urlencodedParser, succesMan);
+app.get('/succes', urlencodedParser, succesMan);
 
-const addMovie = {
-  id: '',
-  title: '',
-  description: '',
-};
 
-function add(request, response) {
-  const id = slug(request.body.title).toLocaleLowerCase();
-
-  addMovie.push({
-    id,
-    title: request.body.title,
-    description: request.body.description,
-  });
-  // eslint-disable-next-line prefer-template
-  response.redirect('/' + id);
+// Below I try to run the database and connect with it
+function form(request, response) {
+  console.log(request.session);
+  response.render('name');
 }
 
-app.post('/add', urlencodedParser, add);
 
-app.get('/users', (req, res) => {
-	MongoClient.connect(url, (err, client) => {
-		const db = client.db('datingSite');
-
-		if (err) {
-			console.log('MongoDB Error:' + err);
-		} else {
-			console.log('MongoDB Connected!');
-
-			const users = db.collection('user');
-
-			users.find({}).toArray((err, result) => {
-				if (err) {
-					res.send(err);
-				} else if (result.length) {
-					res.render('types/index/user', {
-						'userlist': result
-					});
-				} else {
-					res.send('No data found');
-				}
-			});
-      client.close();
-       }
+function addName(req, res, next) {
+  mongodb.MongoClient.connect(url, (err, client) => {
+    if (err) {
+      throw err;
+    }
+    db = client.db(process.env.DB_NAME);
+    const user = db.collection('user');
+    user.insertOne(
+      {
+        name: req.body.firstname,
+      },
+    );
+    // eslint-disable-next-line no-use-before-define
+    done();
   });
-});
+
+  function done(err) {
+    if (err) {
+      next(err);
+    } else {
+      res.render('succes', {
+        data: req.body,
+      });
+    }
+  }
+}
+
+app.post('/name', urlencodedParser, addName);
+app.get('/name', form);
