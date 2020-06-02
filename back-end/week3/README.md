@@ -16,7 +16,7 @@ npm install
 ```
 4. Then, to open the app, enter the following command in the Terminal/CMD (this still has to happen in the correct path)
 ```js
-nodemon server.js
+node server.js
 ```
 5. Then open your browser (whichever one you prefer) and typ in the following: 
 ```js
