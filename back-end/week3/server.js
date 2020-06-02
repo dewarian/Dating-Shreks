@@ -15,6 +15,8 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 require('dotenv').config();
 
+
+// declaring consts en lets
 const url = process.env.MONGO_URL;
 const app = express();
 const port = process.env.PORT || 3000;
@@ -28,9 +30,11 @@ const storeThing = new MongoDBStore({ // Hulp van Victor Boucher
   collection: 'session',
 });
 storeThing.on('error', (err) => {
-  console.log('error with sessions');
+  console.log(`error with sessions ${err}`);
 });
 
+
+// making sure the session is setup
 app.use(session({
   name: nameID,
   secret: sessionSecret,
@@ -43,92 +47,99 @@ app.use(session({
   },
 }));
 
+
+// Connect with mongoDB
+mongodb.MongoClient.connect(url, (err, client) => {
+  if (err) {
+    console.log('MongoDB Error');
+  } else {
+    db = client.db(process.env.DB_NAME);
+    user = db.collection('user');
+  }
+});
+
+
+// set Handlebars
+app.set('views', path.join(__dirname, 'views'));
+app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
+app.use(express.static('website'));
+
+
+// set the port
 function listen() {
   // eslint-disable-next-line no-console
   console.log('app started at port:', port);
 }
 app.listen(3000, listen);
 
-app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
-app.set('view engine', 'handlebars');
-app.use(express.static('website'));
-
-function home (request, response) {
-  mongodb.MongoClient.connect(url, (err, client) => {
-      if (err) {
-          throw err;
-      } else {
-          db = client.db(process.env.DB_NAME);
-          user = db.collection('user');
-          response.render('form');
-          user.findOne({
-              _id: request.session.nameID
-          }, (err, user) => {
-              console.log(user.name);
-          });
-      }
-  });
+// All the routes/posts in the perfect flow order
+// The home page: http:localhost:3000/
+function home(req, res) {
+  res.render('name');
 }
-
 app.get('/', urlencodedParser, home);
 
 
-function volgendeFilm(request, response) {
-  response.render('volgendeFilm-succes', { data: request.body });
-}
-app.post('/volgendeFilm-succes', urlencodedParser, volgendeFilm);
-
-
-function succesMan(request, response) {
-  console.log(request.session.nameID);
-  response.render('succes', { data: request.body });
-}
-
-app.post('/succes', urlencodedParser, succesMan);
-app.get('/succes', urlencodedParser, succesMan);
-
-function form(request, response) {
-  console.log(request.session);
-  response.render('name');
-}
-
-
-function addName(req, res, next) {
-  mongodb.MongoClient.connect(url, (err, client) => {
+function addName(req, res) {
+  user.insertOne(
+    {
+      name: req.body.firstname,
+    },
+  );
+  const nameNow = req.body.firstname;
+  user.findOne({ name: nameNow }, (err, user) => {
     if (err) {
-      throw err;
+      console.log('It is not working');
     } else {
-      db = client.db(process.env.DB_NAME);
-      user = db.collection('user');
-      user.insertOne(
-        {
-          name: req.body.firstname,
-        },
-      );
-      const nameNow = req.body.firstname;
-      user.findOne({ name: nameNow }, function(err, user) {
-        if(err) {
-          console.log('It is not working');
-        } else {
-          req.session.nameID = user._id;
-          res.redirect('succes');
-        }
+      req.session.nameID = user._id;
+      res.render('form', {
+        info: user,
       });
     }
-    // done();
   });
-
-  function done(err) {
-    if (err) {
-      next(err);
-    } else {
-      res.render('succes', {
-        data: req.body,
-      });
-    }
-  }
 }
 
 app.post('/name', urlencodedParser, addName);
-app.get('/name', form);
+
+
+function volgendeFilm(req, res) {
+  user.update(
+    { _id: req.session.nameID },
+    {
+      $push: { movieChoice1: req.body.movie },
+    },
+  );
+  user.findOne({ _id: req.session.nameID }, (err, user) => {
+    if (err) {
+      console.log('It is not working');
+    } else {
+      res.render('volgendeFilm-succes', {
+        info: user,
+      });
+    }
+  });
+}
+
+app.post('/volgendeFilm-succes', urlencodedParser, volgendeFilm);
+
+
+function succesMan(req, res) {
+  user.update(
+    { _id: req.session.nameID },
+    {
+      $push: { movieChoice2: req.body.movie1 },
+    },
+  );
+  user.findOne({ _id: req.session.nameID }, (err, user) => {
+    if (err) {
+      console.log('It is not working');
+    } else {
+      res.render('succes', {
+        info: user,
+      });
+    }
+  });
+}
+app.post('/succes', urlencodedParser, succesMan);
+app.get('/succes', urlencodedParser, succesMan);
