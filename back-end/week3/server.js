@@ -1,3 +1,6 @@
+/* eslint-disable no-shadow */
+// The line above means that I can shadow user in funcitons. This is nice for me because it f
+// its my coding style and I wouldn't want to delete the user
 // Setup for all dependencies
 const express = require('express');
 
@@ -85,6 +88,8 @@ app.get('/', urlencodedParser, home);
 
 
 function addName(req, res) {
+  // I had to call the mongoDB server again because it kept on crashing when I redirected from the
+  // deleteAccount or removeCooke. I don't know what is wrong.
   mongodb.MongoClient.connect(url, (err, client) => {
     if (err) {
       console.log('MongoDB Error');
@@ -101,6 +106,8 @@ function addName(req, res) {
         if (err) {
           console.log('It is not working');
         } else {
+          // If it wasn't for the line below I kept getting errors because of the linter I am using
+          // eslint-disable-next-line no-underscore-dangle
           req.session.nameID = user._id;
           res.render('form', {
             info: user,
@@ -158,7 +165,7 @@ function succesMan(req, res) {
       $set: { movieChoice2: req.body.movie1 },
     },
   );
-  user.findOne({ _id: req.session.nameID }, (err, user) => {
+  user.findOne({ _id: req.session.nameID }, (err) => {
     if (err) {
       console.log('It is not working');
     } else {
