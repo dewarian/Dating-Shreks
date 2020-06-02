@@ -16,7 +16,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 require('dotenv').config();
 
 
-// declaring consts en lets
+// declaring consts en lets which are used further in the project
 const url = process.env.MONGO_URL;
 const app = express();
 const port = process.env.PORT || 3000;
@@ -68,7 +68,6 @@ app.use(express.static('website'));
 
 // set the port
 function listen() {
-  // eslint-disable-next-line no-console
   console.log('app started at port:', port);
 }
 app.listen(3000, listen);
@@ -86,19 +85,27 @@ app.get('/', urlencodedParser, home);
 
 
 function addName(req, res) {
-  user.insertOne(
-    {
-      name: req.body.firstname,
-    },
-  );
-  const nameNow = req.body.firstname;
-  user.findOne({ name: nameNow }, (err, user) => {
+  mongodb.MongoClient.connect(url, (err, client) => {
     if (err) {
-      console.log('It is not working');
+      console.log('MongoDB Error');
     } else {
-      req.session.nameID = user._id;
-      res.render('form', {
-        info: user,
+      db = client.db(process.env.DB_NAME);
+      user = db.collection('user');
+      user.insertOne(
+        {
+          name: req.body.firstname,
+        },
+      );
+      const nameNow = req.body.firstname;
+      user.findOne({ name: nameNow }, (err, user) => {
+        if (err) {
+          console.log('It is not working');
+        } else {
+          req.session.nameID = user._id;
+          res.render('form', {
+            info: user,
+          });
+        }
       });
     }
   });
@@ -128,24 +135,6 @@ function volgendeFilm(req, res) {
 app.post('/volgendeFilm-succes', urlencodedParser, volgendeFilm);
 
 
-function succesMan(req, res) {
-  user.update(
-    { _id: req.session.nameID },
-    {
-      $set: { movieChoice2: req.body.movie1 },
-    },
-  );
-  user.findOne({ _id: req.session.nameID }, (err, user) => {
-    if (err) {
-      console.log('It is not working');
-    } else {
-      res.render('succes', {
-        info: user,
-      });
-    }
-  });
-}
-
 function succesRefresh(req, res) {
   if (!req.session.nameID) {
     res.redirect('/');
@@ -162,6 +151,22 @@ function succesRefresh(req, res) {
   }
 }
 
+function succesMan(req, res) {
+  user.update(
+    { _id: req.session.nameID },
+    {
+      $set: { movieChoice2: req.body.movie1 },
+    },
+  );
+  user.findOne({ _id: req.session.nameID }, (err, user) => {
+    if (err) {
+      console.log('It is not working');
+    } else {
+      res.redirect('succes');
+    }
+  });
+}
+
 app.post('/succes', urlencodedParser, succesMan);
 app.get('/succes', urlencodedParser, succesRefresh);
 
@@ -169,15 +174,15 @@ app.get('/succes', urlencodedParser, succesRefresh);
 function deleteAccount(req, res) {
   req.session.destroy((err) => {
     if (err) {
-      res.redirect('/suces');
+      res.redirect('/succes');
     } else {
-      user.remove(
-        { _id: nameID },
-        {
-          movieChoice1: user.movieChoice1,
-          movieChoice2: user.movieChoice2,
-        },
-      );
+      // user.remove(
+      //   { _id: nameID },
+      //   {
+      //     movieChoice1: user.movieChoice1,
+      //     movieChoice2: user.movieChoice2,
+      //   },
+      // );
       res.clearCookie(nameID);
       res.redirect('/');
     }
