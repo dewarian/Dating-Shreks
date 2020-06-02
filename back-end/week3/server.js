@@ -76,7 +76,11 @@ app.listen(3000, listen);
 // All the routes/posts in the perfect flow order
 // The home page: http:localhost:3000/
 function home(req, res) {
-  res.render('name');
+  if (!req.session.nameID) {
+    res.render('name');
+  } else {
+    res.redirect('succes');
+  }
 }
 app.get('/', urlencodedParser, home);
 
@@ -107,7 +111,7 @@ function volgendeFilm(req, res) {
   user.update(
     { _id: req.session.nameID },
     {
-      $push: { movieChoice1: req.body.movie },
+      $set: { movieChoice1: req.body.movie },
     },
   );
   user.findOne({ _id: req.session.nameID }, (err, user) => {
@@ -128,7 +132,7 @@ function succesMan(req, res) {
   user.update(
     { _id: req.session.nameID },
     {
-      $push: { movieChoice2: req.body.movie1 },
+      $set: { movieChoice2: req.body.movie1 },
     },
   );
   user.findOne({ _id: req.session.nameID }, (err, user) => {
@@ -141,5 +145,43 @@ function succesMan(req, res) {
     }
   });
 }
+
+function succesRefresh(req, res) {
+  if (!req.session.nameID) {
+    res.redirect('/');
+  } else {
+    user.findOne({ _id: req.session.nameID }, (err, user) => {
+      if (err) {
+        console.log('It is not working');
+      } else {
+        res.render('succes', {
+          info: user,
+        });
+      }
+    });
+  }
+}
+
 app.post('/succes', urlencodedParser, succesMan);
-app.get('/succes', urlencodedParser, succesMan);
+app.get('/succes', urlencodedParser, succesRefresh);
+
+
+function deleteAccount(req, res) {
+  req.session.destroy((err) => {
+    if (err) {
+      res.redirect('/suces');
+    } else {
+      user.remove(
+        { _id: nameID },
+        {
+          movieChoice1: user.movieChoice1,
+          movieChoice2: user.movieChoice2,
+        },
+      );
+      res.clearCookie(nameID);
+      res.redirect('/');
+    }
+  });
+}
+
+app.post('/delete', deleteAccount);
