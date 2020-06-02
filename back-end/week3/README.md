@@ -22,3 +22,4 @@ node server.js
 ```js
 http://localhost:3000
 ```
+6. It works!
