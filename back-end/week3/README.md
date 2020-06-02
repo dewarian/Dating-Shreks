@@ -10,7 +10,7 @@ have created a user + movie preferences!
 For installing this app you will need to do the following:
 1. Clone all the documents found in the repository and put them in a map
 2. Open your Terminal/CMD and look for the map
-3. When opened enter the following in the Terminal/CMD (You will need to install npm for this, if not yet installed. Do so with this [link](https://www.npmjs.com/get-npm))
+3. When opened enter the following in the Terminal/CMD _(You will need to install npm for this, if not yet installed. Do so with this [link](https://www.npmjs.com/get-npm))_
 ```js
 npm install
 ```
