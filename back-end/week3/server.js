@@ -172,17 +172,11 @@ app.get('/succes', urlencodedParser, succesRefresh);
 
 
 function deleteAccount(req, res) {
+  user.deleteMany({ _id: req.session.nameID });
   req.session.destroy((err) => {
     if (err) {
       res.redirect('/succes');
     } else {
-      // user.remove(
-      //   { _id: nameID },
-      //   {
-      //     movieChoice1: user.movieChoice1,
-      //     movieChoice2: user.movieChoice2,
-      //   },
-      // );
       res.clearCookie(nameID);
       res.redirect('/');
     }
@@ -190,3 +184,16 @@ function deleteAccount(req, res) {
 }
 
 app.post('/delete', deleteAccount);
+
+function removeCookie(req, res) {
+  req.session.destroy((err) => {
+    if (err) {
+      res.redirect('/succes');
+    } else {
+      res.clearCookie(nameID);
+      res.redirect('/');
+    }
+  });
+}
+
+app.post('/cookieRemovie', removeCookie);
