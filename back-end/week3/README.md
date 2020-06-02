@@ -22,4 +22,8 @@ node server.js
 ```js
 http://localhost:3000
 ```
-6. It works!
+#### 6. It works!
+
+## Linter
+For linter I am using the AirBnB guide. That means that I use the rules they use in my app.
+If you happen to want more information about the linter I am using you can visit: https://github.com/airbnb/javascript
