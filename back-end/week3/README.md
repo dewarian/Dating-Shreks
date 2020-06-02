@@ -11,3 +11,14 @@ For installing this app you will need to do the following:
 1. Clone all the documents found in the repository and put them in a map
 2. Open your Terminal/CMD and look for the map
 3. When opened enter the following in the Terminal/CMD
+```js
+npm install
+```
+4. Then, to open the app, enter the following command in the Terminal/CMD (this still has to happen in the correct path)
+```js
+nodemon server.js
+```
+5. Then open your browser (whichever one you prefer) and typ in the following: 
+```js
+http://localhost:3000
+```
