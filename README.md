@@ -26,3 +26,6 @@ http://localhost:3000
 
 ## More information and documentation
 You can find more information and all sources in my wiki. Here is a [link](https://github.com/ParvinBDJ/Dating-App/wiki) so you can check it out!
+
+## Want to see the static site?
+You can see it live over [here](https://parvinbdj.github.io/Static-Site/). Or you can check out the [repo](https://github.com/ParvinBDJ/Static-Site)
