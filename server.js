@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 // The line above means that I can shadow user in funcitons. This is nice for me because it f
 // its my coding style and I wouldn't want to delete the user
 // Setup for all dependencies
@@ -52,7 +51,7 @@ app.use(session({
 
 
 // Connect with mongoDB
-mongodb.MongoClient.connect(url, (err, client) => {
+mongodb.MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
   if (err) {
     console.log('MongoDB Error');
   } else {
@@ -90,7 +89,7 @@ app.get('/', urlencodedParser, home);
 function addName(req, res) {
   // I had to call the mongoDB server again because it kept on crashing when I redirected from the
   // deleteAccount or removeCooke. I don't know what is wrong.
-  mongodb.MongoClient.connect(url, (err, client) => {
+  mongodb.MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
     if (err) {
       console.log('MongoDB Error');
     } else {
