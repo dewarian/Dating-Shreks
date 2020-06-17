@@ -1,3 +1,14 @@
+/* 
+ _   _ _____ _____    _____ _   _    _   _ _____ _____ 
+| \ | |  _  |_   _|  |_   _| \ | |  | | | /  ___|  ___|
+|  \| | | | | | |      | | |  \| |  | | | \ `--.| |__  
+| . ` | | | | | |      | | | . ` |  | | | |`--. \  __| 
+| |\  \ \_/ / | |     _| |_| |\  |  | |_| /\__/ / |___ 
+\_| \_/\___/  \_/     \___/\_| \_/   \___/\____/\____/ 
+
+*/
+
+
 // /**
 //  * @file mongoDB export
 //  * @description NOT MY OWN CODE, after searching for many examples, ended up using this and mostly copying it.
