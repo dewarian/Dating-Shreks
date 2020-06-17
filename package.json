@@ -9,6 +9,10 @@
     "lint": "./node_modules/.bin/eslint server.js"
   },
   "author": "Parvin Bungenberg de Jong",
+  "contributors": [
+    "Romy Wiedijk",
+    "Nathan Bommezijn"
+  ],
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -26,6 +30,6 @@
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.20.2",
     "nodemon": "^2.0.4",
-    "prettier": "2.0.5"
+    "prettier": "^2.0.5"
   }
 }
