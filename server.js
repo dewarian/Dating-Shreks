@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const mongodb = require('mongodb');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-
+const fetch = require('node-fetch');
 require('dotenv').config();
 
 
@@ -108,6 +108,7 @@ function addName(req, res) {
         if (err) {
           console.log('It is not working');
         } else {
+          console.log(user._id);
           req.session.nameID = user._id;
           res.render('form', {
             info: user,
@@ -160,6 +161,18 @@ function succesRefresh(req, res) {
       if (err) {
         console.log('It is not working');
       } else {
+        console.log(user.movieChoice1);
+        const getMovie = async (url) => {
+          try {
+            url = 'http://www.omdbapi.com/?t=' + encodeURI(user.movieChoice1) + '&apikey=8f925772';
+            const response = await fetch(url);
+            const json = await response.json();
+            console.log(json);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        getMovie();
         res.render('succes', {
           info: user,
         });
