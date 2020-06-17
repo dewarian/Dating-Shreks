@@ -3,7 +3,6 @@ const express = require('express');
 const handlebars = require('express-handlebars');
 const path = require('path');
 const bodyParser = require('body-parser');
-const mongodb = require('mongodb');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
