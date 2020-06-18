@@ -9,13 +9,15 @@
 <body>
     <h1>{{ info.name }}, your choices are:</h1>
     <h3>1: {{ info.movieChoice1 }}</h3>
+    <img class="poster" src="{{ movie.Poster }}" alt=" Movie Poster of {{ info.movieChoice1 }}">
     <p>Year: {{ movie.Year }}</p>
     <p>Decription: {{ movie.Plot }}</p>
-    <p>Rating: {{ movie.Ratings.0.Value }}</p>
+    <p>IMDB Rating: {{ movie.Ratings.0.Value }}</p>
     <h3>2: {{ info.movieChoice2 }} </h3>
+    <img class="poster" src="{{ movie1.Poster }}" alt=" Movie Poster of {{ info.movieChoice2 }}">
     <p>Year: {{ movie1.Year }}</p>
     <p>Decription: {{ movie1.Plot }}</p>
-    <p>Rating: {{ movie1.Ratings.0.Value }}</p>
+    <p>IMDB Rating: {{ movie1.Ratings.0.Value }}</p>
  
     <form action="/delete" method="POST">
     <label for="delete"><h2>Would you like to delete your account?</h2>
