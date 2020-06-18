@@ -161,21 +161,24 @@ function succesRefresh(req, res) {
       if (err) {
         console.log('It is not working');
       } else {
-        console.log(user.movieChoice1);
-        const getMovie = async (url) => {
+        const getMovie = async (url, url1) => {
           try {
             url = 'http://www.omdbapi.com/?t=' + encodeURI(user.movieChoice1) + '&apikey=8f925772';
+            url1 = 'http://www.omdbapi.com/?t=' + encodeURI(user.movieChoice2) + '&apikey=8f925772';
             const response = await fetch(url);
+            const response1 = await fetch(url1);
             const json = await response.json();
-            console.log(json);
+            const json1 = await response1.json();
+            res.render('succes', {
+              info: user,
+              movie: json,
+              movie1: json1,
+            });
           } catch (error) {
             console.log(error);
           }
         };
         getMovie();
-        res.render('succes', {
-          info: user,
-        });
       }
     });
   }
