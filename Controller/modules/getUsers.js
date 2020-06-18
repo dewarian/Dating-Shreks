@@ -7,14 +7,14 @@ const session = require('express-session');
 const sessionSecret = process.env.SESSION_SECRET;
 const nameID = 'nameID';
 
+let userData;
 
-function getUsers(req, res, next) {
+async function getUsers(req, res) {
   mongodb.MongoClient.connect(url, {
     useUnifiedTopology: true
   }, (err, client) => {
     if (err) {
       console.error(`[MONGO ERR]: ${err}`);
-      next()
     } else {
       db = client.db(process.env.DB_NAME);
       user = db.collection('user');
@@ -23,34 +23,31 @@ function getUsers(req, res, next) {
           console.error(`[MONGO ERR]: Failed to retrieve. \n ${err}`)
         } else {
           userData = user;
-          res.render('users', {
-            users: userData,
-          })
-          next();
+          // console.log(`getUsers(): ${JSON.stringify(user)}`);
         }
       })
     }
   })
+  return userData;
 }
 
-// function goToUsers(req, res) {
-//     if (!req.session.nameID) {
-//       res.render('name');
-//     } else {
-//       res.redirect('users');
-//     };
-//   };
+getUsers().then(console.log(`testing promise ${userData}`));
+
+console.log(`tet:`);
 
 function goToUsers(req, res) {
-  router.get('/', (req, res) => {
+    // getUsers();
+    // dataSet = getUsers();
+    // console.log(`${dataSet}`);
     res.render('users', {
       title: 'Shreks App',
+      // userData: dataSet
     });
-  });
 };
 
 // exports.getUsers = getUsers;
 // module.exports = {getUsers, goToUsers};
+exports.userData = userData;
 module.exports = {
   getUsers,
   goToUsers

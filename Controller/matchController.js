@@ -4,19 +4,18 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 
 const mongodb = require('mongodb');
-const getUsers = require('./modules/getUSers');
+const getUsers = require('./modules/getUsers');
 const url = process.env.MONGO_URL;
 const nameID = 'nameID';
+
 
 router.use(bodyParser.urlencoded({
   extended: false,
 }));
 
 router.get('/', (req, res, next) => {
-  getUsers.getUsers();
-  res.render('users', {
-    title: 'shreks',
-  })
+  // getUsers.getUsers();
+  getUsers.goToUsers(req, res);
 })
 
 //   function goToUsers(req, res) {
