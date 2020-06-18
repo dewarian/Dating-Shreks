@@ -32,15 +32,10 @@ mongodb.MongoClient.connect(url, {useUnifiedTopology: true}, (err, client) => {
  * @param {*} req
  * @param {*} res
  */
-function home(req, res) {
-    if (!req.session.nameID) {
-      res.render('name');
-    } else {
-      res.redirect('succes');
-    }
-  }
 
-  router.get('/', urlencodedParser, home);
+const getHome = require('./modules/getHome');
+
+  router.get('/', urlencodedParser, getHome);
 
 /**
  *
@@ -109,6 +104,8 @@ router.post('/volgendeFilm-succes', urlencodedParser, volgendeFilm);
  * @param {*} req request
  * @param {*} res response
  */
+const getData = require('./modules/getAPI');
+
 function succesRefresh(req, res) {
   if (!req.session.nameID) {
     res.redirect('/');
@@ -117,10 +114,14 @@ function succesRefresh(req, res) {
       if (err) {
         console.log('It is not working');
       } else {
+        const choice = encodeURI(user.movieChoice1);
+        const dataURL = `http://www.omdbapi.com/?t=${choice}&apikey=905f9adf`;
+        getData(dataURL);
         res.render('succes', {
           info: user,
         });
       }
+
     });
   }
 }
@@ -189,6 +190,8 @@ function removeCookie(req, res) {
 
 router.post('/cookieRemovie', removeCookie);
 
+const matchController = require('./matchController')
+router.use('/match', matchController);
 
 
 module.exports = router;
