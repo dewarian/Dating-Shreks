@@ -1,6 +1,7 @@
 body {
   background-color: #f19044;
-  margin: 20px;
+  /* background-color: rgb(130, 185, 21); */
+  margin: 40px 20px;
   font-family: arial, sans-serif;
 }
 
@@ -17,21 +18,28 @@ ul {
 
 li {
   background-color: #fce0cd;
-  padding: 0 20px;
-  margin: 70px 0;
+  padding: 20px;
+  padding-top: 0px;
+  margin: 80px auto;
   position: relative;
   height: auto;
-  max-width: 435px;
+}
+
+li img {
+  object-fit: cover;
+  max-height: 300px;
+
+  filter: grayscale(100%);
 }
 
 li::before {
   content: "";
   background-image: url('../../website/img/film-top.png');
   position: absolute;
-  z-index: 1;
+  z-index: -1;
   top: -50px;
   left: 0;
-  height: 53px;
+  height: 63px;
   width: 100%;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -41,10 +49,10 @@ li::after {
   content: "";
   background-image: url('../../website/img/film-bottom.png');
   position: absolute;
-  z-index: 1;
-  bottom: -50px;
+  z-index: -1;
+  bottom: -70px;
   left: 0;
-  height: 63px;
+  height: 93px;
   width: 100%;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -81,6 +89,20 @@ label button {
   margin-right: auto;
 }
 
+label button:hover {
+  cursor: pointer;
+  background-color: rgb(205, 205, 205);
+}
+
+label button:active {
+  border-style: dashed;
+  border-color: rgb(87, 87, 87);
+}
+
+label button:focus {
+
+}
+
 #add {
   display: block;
   margin: 20px 0 5px 20px;
@@ -104,12 +126,36 @@ label button {
 
 
 @media only screen and (min-width: 800px) {
+  li {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  li::before {
+    top: -60px;
+  }
+}
+
+@media only screen and (min-width: 1050px) {
+  body {
+    margin: 60px 20px;
+  }
+
   ul {
     flex-direction: row;
+    justify-content: center;
+    margin: auto;
+    max-width: 1200px;
   }
 
   li {
-    margin-left: 40px;
-    margin-right: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+    min-width: 420px;
+  }
+
+  li img {
+    max-width: 500px;
+    max-height: 400px;
   }
 }

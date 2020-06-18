@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forms</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../public/style/style.css">
 </head>
 <body>
     <h1>{{ info.name }}, your choices are:</h1>
@@ -18,7 +18,7 @@
     <p>Year: {{ movie1.Year }}</p>
     <p>Decription: {{ movie1.Plot }}</p>
     <p>IMDB Rating: {{ movie1.Ratings.0.Value }}</p>
- 
+
     <form action="/delete" method="POST">
     <label for="delete"><h2>Would you like to delete your account?</h2>
     <button>Delete</button>

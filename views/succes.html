@@ -11,7 +11,7 @@
     <ul>
       <li>
         <h2>1: {{ info.movieChoice1 }}</h2>
-        <img class="poster" src="../website/img/getout.jpg" alt=" Movie Poster of {{ info.movieChoice1 }}">
+        <img class="poster" src="../website/img/shining.jpg" alt=" Movie Poster of {{ info.movieChoice1 }}">
         <p>Year: {{ movie.Year }}</p>
         <p>Decription: {{ movie.Plot }}</p>
         <p>IMDB Rating: {{ movie.Ratings.0.Value }}</p>
@@ -26,14 +26,16 @@
     </ul>
 
     <form action="/delete" method="POST">
-    <label for="delete"><h2>Would you like to delete your account?</h2>
-    <button>Delete</button>
+    <label for="delete">
+      <h2>Would you like to delete your account?</h2>
+      <button>Delete</button>
     </label>
     </form>
 
     <form action="/cookieRemovie" method="POST">
-    <label for="remove"><h2>Would you like to logout (Remove session)?</h2>
-    <button>Log Out</button>
+    <label for="remove">
+      <h2>Would you like to logout (Remove session)?</h2>
+      <button>Log Out</button>
     </label>
     </form>
     <script src="server.js"></script>
