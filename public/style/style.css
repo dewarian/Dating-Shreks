@@ -1,36 +1,76 @@
-body{
-  background-color: #ececec;
+body {
+  background-color: #f19044;
+  margin: 20px;
+  font-family: arial, sans-serif;
 }
-[type=radio] { 
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-[type=radio] + img {
-    cursor: pointer;
-  }
-  
-[type=radio]:checked + img {
-    width: 24%;
-    outline: 5px solid rgb(241, 142, 12);
-  }
+
+h1 {
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+li {
+  background-color: #fce0cd;
+  padding: 0 20px;
+  margin: 70px 0;
+  position: relative;
+  height: auto;
+  max-width: 435px;
+}
+
+li::before {
+  content: "";
+  background-image: url('../../website/img/film-top.png');
+  position: absolute;
+  z-index: 1;
+  top: -50px;
+  left: 0;
+  height: 53px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+li::after {
+  content: "";
+  background-image: url('../../website/img/film-bottom.png');
+  position: absolute;
+  z-index: 1;
+  bottom: -50px;
+  left: 0;
+  height: 63px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+.poster {
+  width: 100%;
+  height: auto;
+}
+
+h2 {
+  margin: 20px 0;
+  text-align: center;
+}
+
+form {
+  text-align: center;
+}
 
 label img {
 transition: ease 0.3s;
 width: 20%;
 margin: 2vw;
 }
-form{
-  text-align: center;
-}
 
-h1{
-  text-align: center;
-}
-
-label button{
+label button {
   display: block;
   text-decoration: none;
   border-radius: 3px;
@@ -41,14 +81,35 @@ label button{
   margin-right: auto;
 }
 
-h2{
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-  font-size: 0.9em;
-
-}
 #add {
   display: block;
   margin: 20px 0 5px 20px;
+}
+
+[type=radio] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+[type=radio] + img {
+  cursor: pointer;
+}
+
+[type=radio]:checked + img {
+  width: 24%;
+  outline: 5px solid rgb(241, 142, 12);
+}
+
+
+@media only screen and (min-width: 800px) {
+  ul {
+    flex-direction: row;
+  }
+
+  li {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
 }
