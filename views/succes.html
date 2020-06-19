@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forms</title>
-    <link rel="stylesheet" href="../public/style/style.css">
+    <link rel="stylesheet" href="style/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
   </head>
   <body>
@@ -12,14 +12,14 @@
     <ul>
       <li>
         <h2>1: {{ info.movieChoice1 }}</h2>
-        <img class="poster" src="../website/img/shining.jpg" alt=" Movie Poster of {{ info.movieChoice1 }}">
+        <img class="poster" src="img/shining.jpg" alt=" Movie Poster of {{ info.movieChoice1 }}">
         <p>Year: {{ movie.Year }}</p>
         <p>Decription: {{ movie.Plot }}</p>
         <p>IMDB Rating: {{ movie.Ratings.0.Value }}</p>
       </li>
       <li>
         <h2>2: {{ info.movieChoice2 }} </h2>
-        <img class="poster" src="../website/img/getout.jpg" alt=" Movie Poster of {{ info.movieChoice2 }}">
+        <img class="poster" src="img/getout.jpg" alt=" Movie Poster of {{ info.movieChoice2 }}">
         <p>Year: {{ movie1.Year }}</p>
         <p>Decription: {{ movie1.Plot }}</p>
         <p>IMDB Rating: {{ movie1.Ratings.0.Value }}</p>

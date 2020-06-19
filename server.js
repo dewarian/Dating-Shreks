@@ -32,7 +32,7 @@ storeThing.on('error', (err) => {
 app.use(session({
   name: nameID,
   secret: sessionSecret,
-  resafe: false,
+  resave: false,
   saveUninitialized: false,
   store: storeThing,
   cookie: {
@@ -57,7 +57,7 @@ mongodb.MongoClient.connect(url, {useUnifiedTopology: true}, (err, client) => {
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-app.use(express.static('website'));
+app.use(express.static('public'));
 
 
 // set the port
