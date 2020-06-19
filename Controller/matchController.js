@@ -14,7 +14,8 @@ router.use(bodyParser.urlencoded({
 
 router.get('/', (req, res) => {
   getUsers.getUsers(req, res);
-  console.log(`session: ${JSON.stringify(req.body.users)}`)
+  console.log(`session: ${JSON.stringify(req.session.nameID)}`)
+  console.log(req.movieChoice1);
 })
 
 router.post('/', (req, res) => {
