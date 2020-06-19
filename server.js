@@ -1,17 +1,18 @@
 // Setup for all dependencies
 const express = require('express');
-const handlebars = require('express-handlebars');
-const path = require('path');
+const app = express();
+
 const bodyParser = require('body-parser');
+const path = require('path');
+
+const handlebars = require('express-handlebars');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
 require('dotenv').config();
 
-
 // declaring consts en lets which are used further in the project
 const url = process.env.MONGO_URL;
-const app = express();
 const port = process.env.PORT || 3000;
 const urlencodedParser = bodyParser.urlencoded({
   extended: false
@@ -29,7 +30,6 @@ storeThing.on('error', (err) => {
   console.log(`error with sessions ${err}`);
 });
 
-
 // making sure the session is setup
 app.use(session({
   name: nameID,
@@ -43,27 +43,22 @@ app.use(session({
   },
 }));
 
-// set Handlebars
+// set Express engine to handlebars and link views to view
 app.set('views', path.join(__dirname, 'View'));
-app.engine('handlebars', handlebars({
-  defaultLayout: 'main',
-  partialsPath: 'partials',
-}));
+app.engine('handlebars', handlebars({ defaultLayout: 'main', partialsPath: 'partials'}));
 app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// set the port
-/**
- * @title express listen at port 3000
- */
-function listen() {
-  console.log('app started at port:', port);
-}
+/* Import routers from controllers */
 const matchController = require('./controller/matchController')
 const homeController = require('./controller/homeController')
+const userRoute = require('./Controller/usercontroller')
+
+
 app.use('/', homeController);
-app.use('/user', matchController);
+// app.use('/user', matchController);
+app.use('/user', userRoute);
 
-
-app.listen(3000, listen);
+/* Start server at port 3000 */
+app.listen(3000, () => console.log(`Dating app listening at \x1b[31mhttp://localhost:${port}\x1b[0m`));

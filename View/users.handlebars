@@ -9,16 +9,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>{{ title }}</h1>
+    <h1>All Users</h1>
     <a href="/succes"><p>Go to profile</p></a>
-    {{> prefData this}}
-    {{> filter}}
+    {{!-- {{> prefData this}} --}}
+    {{!-- {{> filter}} --}}
     {{#each users}}
         <div class="people_list">
             <h1 class="people_list_item">{{this.name}}</h1>
-            <p class="people_list_item">{{this._id}}</p>
-            <p class="people_list_item">{{this.movieChoice1}}</p>
-            <p class="people_list_item">{{this.movieChoice2}}</p>
+            <p class="people_list_item">{{this.age}}</p>
+            {{!-- <p class="people_list_item">{{this._id}}</p> --}}
+            <p class="people_list_item">{{this.movieChoices[0]}}</p>
+            <p class="people_list_item">{{this.movieChoices[1]}}</p>
         </div>
     {{/each}}
 </body>

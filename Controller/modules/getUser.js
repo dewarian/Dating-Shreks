@@ -4,9 +4,6 @@ const url = process.env.MONGO_URL;
 let userData;
 
 function getUsers(req, res) {
-  const moviePref = req.session.MovieChoice1;
-  const moviePref2 = req.session.MovieChoice2;
-  console.log('get users');
   mongodb.MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
     if (err) {
       console.error(`[MONGO ERR]: ${err}`);
@@ -19,8 +16,8 @@ function getUsers(req, res) {
         res.render('users', {
           title: 'Shreks App',
           users: userData,
-          moviePref1: moviePref | 'none',
-          moviePref2: moviePref2 | 'none',
+          moviePref1: req.body.movieChoice1 | 'none',
+          moviePref2: req.body.movieChoice1 | 'none',
         });
       })
     }
