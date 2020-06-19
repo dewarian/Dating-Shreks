@@ -52,3 +52,12 @@ h2{
   display: block;
   margin: 20px 0 5px 20px;
 }
+
+.people_list{
+  background-color: #ffcc00;
+  margin: 1em;
+  padding: 1em;
+}
+.people_list h1{
+ text-align: unset;
+}

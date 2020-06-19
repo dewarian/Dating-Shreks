@@ -115,7 +115,7 @@ function succesRefresh(req, res) {
         console.log('It is not working');
       } else {
         const choice = encodeURI(user.movieChoice1);
-        const dataURL = `http://www.omdbapi.com/?t=${choice}&apikey=905f9adf`;
+        const dataURL = `http://www.omdbapi.com/?t=${choice}&apikey=${process.env.OMDB_KEY}`;
         getData(dataURL);
         res.render('succes', {
           info: user,
