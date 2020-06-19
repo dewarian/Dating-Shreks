@@ -4,9 +4,8 @@ const url = process.env.MONGO_URL;
 let userData;
 
 function getUsers(req, res) {
-  const minAge = req.body.minAge;
-  const maxAge = req.body.maxAge;
-  const sexPref = req.body.sexPref;
+  const moviePref = req.session.MovieChoice1;
+  const moviePref2 = req.session.MovieChoice2;
   console.log('get users');
   mongodb.MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
     if (err) {
@@ -17,16 +16,11 @@ function getUsers(req, res) {
       user.find().toArray(function(err, result) {
         if (err) throw console.log(`[MONGO ERR]: \n ${err}`)
         userData = result;
-        let sess = req.session.users = [];
-        Object.entries(userData).forEach(([key, value]) => {
-          sess.push(key, value);
-        });
         res.render('users', {
           title: 'Shreks App',
           users: userData,
-          minAge: minAge | '18',
-          maxAge: maxAge | '28',
-          sexPref: sexPref | 'other',
+          moviePref1: moviePref | 'none',
+          moviePref2: moviePref2 | 'none',
         });
       })
     }

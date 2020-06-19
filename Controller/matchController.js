@@ -14,7 +14,11 @@ router.use(bodyParser.urlencoded({
 
 router.get('/', (req, res) => {
   getUsers.getUsers(req, res);
-  console.log(`session: ${JSON.stringify(req.session.users)}`)
+  console.log(`session: ${JSON.stringify(req.body.users)}`)
+})
+
+router.post('/', (req, res) => {
+  getUsers(req, res);
 })
 
 module.exports = router;
