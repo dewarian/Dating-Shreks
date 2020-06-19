@@ -46,7 +46,8 @@ app.use(session({
 // set Handlebars
 app.set('views', path.join(__dirname, 'View'));
 app.engine('handlebars', handlebars({
-  defaultLayout: 'main'
+  defaultLayout: 'main',
+  partialsPath: 'partials',
 }));
 app.set('view engine', 'handlebars');
 app.use(express.static(path.join(__dirname, 'public')));

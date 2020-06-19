@@ -11,7 +11,8 @@
 <body>
     <h1>{{ title }}</h1>
     <a href="/succes"><p>Go to profile</p></a>
-    {{!-- <p>{{ users.name }}</p> --}}
+    {{> prefData}}
+    {{> filter}}
     {{#each users}}
         <div class="people_list">
             <h1 class="people_list_item">{{this.name}}</h1>

@@ -61,3 +61,11 @@ h2{
 .people_list h1{
  text-align: unset;
 }
+
+.filter-radio{ 
+    position: relative;
+    opacity: 100;
+    width: 10px;
+    height: 10px;
+  }
+}
