@@ -62,8 +62,8 @@ function listen() {
 }
 const matchController = require('./controller/matchController')
 const homeController = require('./controller/homeController')
+app.use('/', matchController);
 app.use('/', homeController);
-app.use('/user', matchController);
 
 
 app.listen(3000, listen);

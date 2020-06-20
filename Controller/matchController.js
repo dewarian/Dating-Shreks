@@ -21,7 +21,21 @@ router.get('/', (req, res) => {
   }
 })
 
+router.get('/user', (req, res) => {
+  mongodb.MongoClient.connect(url,  {useUnifiedTopology: true}, (err, client) => {
+    if (err) {
+      console.error(`[MONGO ERR]: ${err}`);
+    } else {
+      db = client.db(process.env.DB_NAME);
+      user = db.collection('user');
+      user.find().toArray((err, result) => {
+        if (err) throw err;
+        res.render('users', {users: result})
+      });
+    }
+  })
+})
 
-
+router.post('/filtered', getUsers.filterUsers);
 
 module.exports = router;

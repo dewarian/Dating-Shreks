@@ -4,8 +4,7 @@ const url = process.env.MONGO_URL;
 let userData;
 
 function getUsers(req, res) {
-  const moviePref = req.session.MovieChoice1;
-  const moviePref2 = req.session.MovieChoice2;
+  const moviePref = req.body.movie;
   console.log('get users');
   mongodb.MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
     if (err) {
@@ -20,7 +19,6 @@ function getUsers(req, res) {
           title: 'Shreks App',
           users: userData,
           moviePref1: moviePref | 'none',
-          moviePref2: moviePref2 | 'none',
         });
       })
     }
@@ -28,7 +26,8 @@ function getUsers(req, res) {
 }
 
 
-router.get('/user', (req, res) => {
+function filterUsers(req, res) {
+  console.log('woopiedoopiedoo')
   mongodb.MongoClient.connect(url,  {useUnifiedTopology: true}, (err, client) => {
     if (err) {
       console.error(`[MONGO ERR]: ${err}`);
@@ -37,37 +36,18 @@ router.get('/user', (req, res) => {
       user = db.collection('user');
       user.find().toArray((err, result) => {
         if (err) throw err;
-        data = result;
+        const moviesPicked = req.body.movie;
+        console.log(result)
+        console.log(moviesPicked);
+        res.render('users', {users: result, movies: moviesPicked})
       });
-      const moviesPicked = req.body.movie;
-      console.log(moviesPicked);
-      res.render('users', {users: data})
     }
   })
-})
-
-router.post('/user', (req, res) => {
-  mongodb.MongoClient.connect(url,  {useUnifiedTopology: true}, (err, client) => {
-    if (err) {
-      console.error(`[MONGO ERR]: ${err}`);
-    } else {
-      db = client.db(process.env.DB_NAME);
-      user = db.collection('user');
-      user.find().toArray((err, result) => {
-        if (err) throw err;
-        data = result;
-      });
-      const moviesPicked = req.body.movie;
-      console.log(moviesPicked);
-      res.render('users', {users: data})
-    }
-  })
-})
-
-
+}
 // exports.getUsers = getUsers;
 // module.exports = {getUsers, goToUsers};
 exports.userData = userData;
 module.exports = {
   getUsers,
+  filterUsers,
 };

@@ -191,7 +191,7 @@ function removeCookie(req, res) {
 router.post('/cookieRemovie', removeCookie);
 
 const matchController = require('./matchController')
-router.use('/match', matchController);
+router.use('/user', matchController);
 
 
 module.exports = router;

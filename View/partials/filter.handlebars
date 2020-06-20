@@ -1,9 +1,8 @@
-<form action="/users" method="POST" oninput="">
+<form action="/filtered" method="POST" oninput="">
   <fieldset>
     <legend>Preferences</legend>
       <legend>prefered movie</legend>
       <label for="I'm interested in..."></label>
-
       <label for="movie"><input type="checkbox" name="movie" id="The Lighthouse" value="The Lighthouse">The Lighthouse</label>
       <label for="movie"><input type="checkbox" name="movie" id="The Shining" value="The Shining">The Shininng</label>
       <label for="movie"><input type="checkbox" name="movie" id="Get Out" value="Get Out">Get Out</label>
@@ -32,3 +31,4 @@
   </fieldset>
   <button type="submit">Change preferences</button>
 </form>
+{{ movies }}
