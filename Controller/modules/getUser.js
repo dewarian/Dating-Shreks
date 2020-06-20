@@ -28,6 +28,43 @@ function getUsers(req, res) {
 }
 
 
+router.get('/user', (req, res) => {
+  mongodb.MongoClient.connect(url,  {useUnifiedTopology: true}, (err, client) => {
+    if (err) {
+      console.error(`[MONGO ERR]: ${err}`);
+    } else {
+      db = client.db(process.env.DB_NAME);
+      user = db.collection('user');
+      user.find().toArray((err, result) => {
+        if (err) throw err;
+        data = result;
+      });
+      const moviesPicked = req.body.movie;
+      console.log(moviesPicked);
+      res.render('users', {users: data})
+    }
+  })
+})
+
+router.post('/user', (req, res) => {
+  mongodb.MongoClient.connect(url,  {useUnifiedTopology: true}, (err, client) => {
+    if (err) {
+      console.error(`[MONGO ERR]: ${err}`);
+    } else {
+      db = client.db(process.env.DB_NAME);
+      user = db.collection('user');
+      user.find().toArray((err, result) => {
+        if (err) throw err;
+        data = result;
+      });
+      const moviesPicked = req.body.movie;
+      console.log(moviesPicked);
+      res.render('users', {users: data})
+    }
+  })
+})
+
+
 // exports.getUsers = getUsers;
 // module.exports = {getUsers, goToUsers};
 exports.userData = userData;
