@@ -27,14 +27,13 @@ mongodb.MongoClient.connect(url, {useUnifiedTopology: true}, (err, client) => {
 });
 
 /**
- * @author ParvinBDJ
+ * @author ParvinBDJ & Dewarian
  * @description All the routes/posts in the perfect flow order, The home page: http:localhost:3000/
+ * Updated the path to a separate module.
  * @param {*} req
  * @param {*} res
  */
-
 const getHome = require('./modules/getHome');
-
   router.get('/', urlencodedParser, getHome);
 
 /**

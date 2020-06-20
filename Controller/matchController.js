@@ -1,11 +1,10 @@
 const express = require('express');
-const path = require('path');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const mongodb = require('mongodb');
 const getUsers = require('./modules/getUser');
 const url = process.env.MONGO_URL;
-const nameID = 'nameID';
+const api = require('./modules/getAPI');
 
 
 router.use(bodyParser.urlencoded({
@@ -17,11 +16,13 @@ router.get('/', (req, res) => {
     res.render('name')
   } else {
     getUsers.getUsers(req, res);
-    console.log(`session: ${JSON.stringify(req.session.nameID)}`);
   }
 })
 
 router.get('/user', (req, res) => {
+  if (!req.session.nameID) {
+    res.render('name')
+  } else {
   mongodb.MongoClient.connect(url,  {useUnifiedTopology: true}, (err, client) => {
     if (err) {
       console.error(`[MONGO ERR]: ${err}`);
@@ -34,8 +35,15 @@ router.get('/user', (req, res) => {
       });
     }
   })
+}
 })
 
-router.post('/filtered', getUsers.filterUsers);
+router.post('/filtered', (req, res) => {
+  if (!req.session.nameID) {
+    res.render('name')
+  }else {
+    getUsers.filterUsers(req, res)
+  }
+});
 
 module.exports = router;
