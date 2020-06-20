@@ -1,7 +1,7 @@
 const mongodb = require('mongodb');
 const ObjectId = require('mongodb').ObjectId;
 const url = process.env.MONGO_URL;
-let userData;
+let resData;
 
 function getUsers(req, res) {
   const moviePref = req.body.movie;
@@ -25,6 +25,9 @@ function getUsers(req, res) {
   })
 }
 
+const movCheck = (filterChoice, movieChoice1, movieChoice2) => {
+  return (filterChoice[0] === movieChoice1 || filterChoice[0] === movieChoice2 || filterChoice[1] === movieChoice1 || filterChoice[1] === movieChoice2) ? true : false;
+}
 
 function filterUsers(req, res) {
   console.log('woopiedoopiedoo')
@@ -37,16 +40,19 @@ function filterUsers(req, res) {
       user.find().toArray((err, result) => {
         if (err) throw err;
         const moviesPicked = req.body.movie;
-        console.log(result)
+        const filterData = result.forEach(element => {
+        resData = result.filter((element) => movCheck(moviesPicked, element.movieChoice1, element.movieChoice2)) 
+      })
+        // console.log(result)
         console.log(moviesPicked);
-        res.render('users', {users: result, movies: moviesPicked})
+        res.render('users', {users: resData, movies: moviesPicked})
       });
     }
   })
 }
 // exports.getUsers = getUsers;
 // module.exports = {getUsers, goToUsers};
-exports.userData = userData;
+exports.resData = resData;
 module.exports = {
   getUsers,
   filterUsers,

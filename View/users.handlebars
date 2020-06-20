@@ -12,6 +12,9 @@
     <h1>{{ title }}</h1>
     <a href="/succes"><p>Go to profile</p></a>
     {{> filter}}
+    {{#if users.length}}
+    <h1>{{firstName}} {{lastName}}</h1>
+    {{/if}}
     {{#each users}}
         <div class="people_list">
             <h1 class="people_list_item">{{this.name}}</h1>
@@ -19,6 +22,8 @@
             <p class="people_list_item">{{this.movieChoice1}}</p>
             <p class="people_list_item">{{this.movieChoice2}}</p>
         </div>
+    {{else}}
+    <p>No users match your filter</p>
     {{/each}}
 </body>
 </html>
