@@ -6,7 +6,7 @@
  */
 function home(req, res) {
     if (!req.session.nameID) {
-      res.render('name');
+      res.render('/');
     } else {
       res.redirect('succes');
     };
