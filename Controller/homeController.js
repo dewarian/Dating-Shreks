@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const bodyParser = require('body-parser');
 const router = express.Router();
 
@@ -10,11 +9,10 @@ const nameID = 'nameID';
 const fetch = require('node-fetch');
 
 
-
 router.use(bodyParser.urlencoded({
-    extended: false,
-  }));
-  const urlencodedParser = bodyParser.urlencoded({extended: false});
+  extended: false,
+}));
+const urlencodedParser = bodyParser.urlencoded({extended: false});
 
 let user = null;
 let db = null;
@@ -31,23 +29,25 @@ mongodb.MongoClient.connect(url, {useUnifiedTopology: true}, (err, client) => {
 
 /**
  * @author ParvinBDJ & Dewarian
- * @description All the routes/posts in the perfect flow order, The home page: http:localhost:3000/
+ * @description All the routes/posts in the perfect flow order,
+ * The home page: http:localhost:3000/
  * Updated the path to a separate module.
  * @param {*} req
  * @param {*} res
  */
 const getHome = require('./modules/getHome');
-  router.get('/', urlencodedParser, getHome);
+router.get('/', urlencodedParser, getHome);
 
 /**
  *
  * @param {object} req request obj, data parsed enters req
  * @param {object} res response obj, data that needs to be parses
- * Called mongodb again because of crashes when redirecting from deleteAcc / remCooke
+ * Called mongodb again because of crashes when redirecting from deleteAcc
+ * / remCooke
  */
 function addName(req, res) {
   mongodb.MongoClient.connect(url, {
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   }, (err, client) => {
     if (err) {
       console.log('MongoDB Error');
@@ -56,10 +56,10 @@ function addName(req, res) {
       user = db.collection('user');
       user.insertOne({
         name: req.body.firstname,
-      }, );
+      } );
       const nameNow = req.body.firstname;
       user.findOne({
-        name: nameNow
+        name: nameNow,
       }, (err, user) => {
         if (err) {
           console.log('It is not working');
@@ -85,14 +85,14 @@ router.post('/name', urlencodedParser, addName);
  */
 function volgendeFilm(req, res) {
   user.update({
-    _id: req.session.nameID
+    _id: req.session.nameID,
   }, {
     $set: {
-      movieChoice1: req.body.movie
+      movieChoice1: req.body.movie,
     },
-  }, );
+  } );
   user.findOne({
-    _id: req.session.nameID
+    _id: req.session.nameID,
   }, (err, user) => {
     if (err) {
       console.log('It is not working');
@@ -117,7 +117,7 @@ function succesRefresh(req, res) {
     res.redirect('/');
   } else {
     user.findOne({
-      _id: req.session.nameID
+      _id: req.session.nameID,
     }, (err, user) => {
       if (err) {
         console.log('It is not working');
@@ -153,14 +153,14 @@ function succesRefresh(req, res) {
  */
 function succesMan(req, res) {
   user.update({
-    _id: req.session.nameID
+    _id: req.session.nameID,
   }, {
     $set: {
-      movieChoice2: req.body.movie1
+      movieChoice2: req.body.movie1,
     },
-  }, );
+  } );
   user.findOne({
-    _id: req.session.nameID
+    _id: req.session.nameID,
   }, (err) => {
     if (err) {
       console.log('It is not working');
@@ -181,7 +181,7 @@ router.get('/succes', urlencodedParser, succesRefresh);
  */
 function deleteAccount(req, res) {
   user.deleteMany({
-    _id: req.session.nameID
+    _id: req.session.nameID,
   });
   req.session.destroy((err) => {
     if (err) {
@@ -214,7 +214,7 @@ function removeCookie(req, res) {
 
 router.post('/cookieRemovie', removeCookie);
 
-const matchController = require('./matchController')
+const matchController = require('./matchController');
 router.use('/user', matchController);
 
 module.exports = router;
