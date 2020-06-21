@@ -1,35 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forms</title>
-    <link rel="stylesheet" href="style/style.css">
-  </head>
-  <body>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
     <h1>Oke {{ info.name }}, Which movie now?</h1>
     <form id="form" method="POST" action="/succes">
-
-      <label for="movie1">
+    <label for="movie1">
         <input type="radio" id="movie1" name='movie1' value="Interstellar">
         <img src="img/interstellar.jpg" alt="Interstellar movie poster">
-      </label>
-
-      <label for="movie2">
+    </label>
+    
+    <label for="movie2">
         <input type="radio" id="movie2" name='movie1' value="The Godfather">
         <img src="img/godfather.jpg" alt="The Godfather movie poster">
-      </label>
+    </label>
 
-      <label for="movie3">
-        <input type="radio" id="movie3" name='movie1' value="Pulp Fiction">
-        <img src="img/pulpfiction.jpg" alt="Pulp Fiction movies poster">
-      </label>
+    <label for="movie3">
+    <input type="radio" id="movie3" name='movie1' value="Pulp Fiction">
+    <img src="img/pulpfiction.jpg" alt="Pulp Fiction movies poster">
+    </label>
 
-      <label for="button">
-          <button>Submit</button>
-      </label>
+    <label for="button">
+        <button>Submit</button>
+    </label>
     </form>
-
+    
     <script src="server.js"></script>
-  </body>
+</body>
 </html>

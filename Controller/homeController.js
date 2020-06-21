@@ -1,70 +1,40 @@
-// Setup for all dependencies
 const express = require('express');
-const handlebars = require('express-handlebars');
 const path = require('path');
 const bodyParser = require('body-parser');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
-const fetch = require('node-fetch');
-require('dotenv').config();
+const router = express.Router();
 
-
-// declaring consts en lets which are used further in the project
+const mongodb = require('mongodb');
 const url = process.env.MONGO_URL;
-const app = express();
-const port = process.env.PORT || 3000;
-const urlencodedParser = bodyParser.urlencoded({
-  extended: false
-});
 const nameID = 'nameID';
-let db = null;
+
+
+router.use(bodyParser.urlencoded({
+    extended: false,
+  }));
+  const urlencodedParser = bodyParser.urlencoded({extended: false});
+
 let user = null;
+let db = null;
 
-const sessionSecret = process.env.SESSION_SECRET;
-const storeThing = new MongoDBStore({ // Hulp van Victor Boucher
-  uri: url,
-  collection: 'session',
+// Connect with mongoDB
+mongodb.MongoClient.connect(url, {useUnifiedTopology: true}, (err, client) => {
+  if (err) {
+    console.log('MongoDB Error');
+  } else {
+    db = client.db(process.env.DB_NAME);
+    user = db.collection('user');
+  }
 });
-storeThing.on('error', (err) => {
-  console.log(`error with sessions ${err}`);
-});
 
-
-// making sure the session is setup
-app.use(session({
-  name: nameID,
-  secret: sessionSecret,
-  resave: false,
-  saveUninitialized: false,
-  store: storeThing,
-  cookie: {
-    sameSite: true,
-    secure: false,
-  },
-}));
-
-// set Handlebars
-app.set('views', path.join(__dirname, 'View'));
-app.engine('handlebars', handlebars({
-  defaultLayout: 'main',
-  partialsPath: 'partials',
-}));
-app.set('view engine', 'handlebars');
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-// set the port
 /**
- * @title express listen at port 3000
+ * @author ParvinBDJ & Dewarian
+ * @description All the routes/posts in the perfect flow order, The home page: http:localhost:3000/
+ * Updated the path to a separate module.
+ * @param {*} req
+ * @param {*} res
  */
-function listen() {
-  console.log('app started at port:', port);
-}
-const matchController = require('./controller/matchController')
-const homeController = require('./controller/homeController')
-app.use('/', matchController);
-app.use('/', homeController);
-
+const getHome = require('./modules/getHome');
+  router.get('/', urlencodedParser, getHome);
 
 /**
  *
@@ -89,7 +59,6 @@ function addName(req, res) {
         if (err) {
           console.log('It is not working');
         } else {
-          console.log(user._id);
           req.session.nameID = user._id;
           res.render('form', {
             info: user,
@@ -100,7 +69,7 @@ function addName(req, res) {
   });
 }
 
-app.post('/name', urlencodedParser, addName);
+router.post('/name', urlencodedParser, addName);
 
 /**
  * @title Volgende film
@@ -109,7 +78,7 @@ app.post('/name', urlencodedParser, addName);
  * @param {object} res response object
  */
 function volgendeFilm(req, res) {
-  user.update(
+  user.updateOne(
       {_id: req.session.nameID},
       {
         $set: {movieChoice1: req.body.movie},
@@ -126,7 +95,7 @@ function volgendeFilm(req, res) {
   });
 }
 
-app.post('/volgendeFilm-succes', urlencodedParser, volgendeFilm);
+router.post('/volgendeFilm-succes', urlencodedParser, volgendeFilm);
 
 /**
  * @title succes refresh?
@@ -134,6 +103,8 @@ app.post('/volgendeFilm-succes', urlencodedParser, volgendeFilm);
  * @param {*} req request
  * @param {*} res response
  */
+const getData = require('./modules/getAPI');
+
 function succesRefresh(req, res) {
   if (!req.session.nameID) {
     res.redirect('/');
@@ -142,25 +113,14 @@ function succesRefresh(req, res) {
       if (err) {
         console.log('It is not working');
       } else {
-        const getMovie = async (url, url1) => {
-          try {
-            url = 'http://www.omdbapi.com/?t=' + encodeURI(user.movieChoice1) + '&apikey=8f925772';
-            url1 = 'http://www.omdbapi.com/?t=' + encodeURI(user.movieChoice2) + '&apikey=8f925772';
-            const response = await fetch(url);
-            const response1 = await fetch(url1);
-            const json = await response.json();
-            const json1 = await response1.json();
-            res.render('succes', {
-              info: user,
-              movie: json,
-              movie1: json1,
-            });
-          } catch (error) {
-            console.log(error);
-          }
-        };
-        getMovie();
+        const choice = encodeURI(user.movieChoice1);
+        const dataURL = `http://www.omdbapi.com/?t=${choice}&apikey=${process.env.OMDB_KEY}`;
+        getData(dataURL);
+        res.render('succes', {
+          info: user,
+        });
       }
+
     });
   }
 }
@@ -172,7 +132,7 @@ function succesRefresh(req, res) {
  * @param {*} res response
  */
 function succesMan(req, res) {
-  user.update(
+  user.updateOne(
       {_id: req.session.nameID},
       {
         $set: {movieChoice2: req.body.movie1},
@@ -187,8 +147,8 @@ function succesMan(req, res) {
   });
 }
 
-app.post('/succes', urlencodedParser, succesMan);
-app.get('/succes', urlencodedParser, succesRefresh);
+router.post('/succes', urlencodedParser, succesMan);
+router.get('/succes', urlencodedParser, succesRefresh);
 
 /**
  * @title Delete account
@@ -208,7 +168,7 @@ function deleteAccount(req, res) {
   });
 }
 
-app.post('/delete', deleteAccount);
+router.post('/delete', deleteAccount);
 
 /**
  * @title delete cookie
@@ -227,4 +187,10 @@ function removeCookie(req, res) {
   });
 }
 
-app.post('/cookieRemovie', removeCookie);
+router.post('/cookieRemovie', removeCookie);
+
+const matchController = require('./matchController')
+router.use('/user', matchController);
+
+
+module.exports = router;
