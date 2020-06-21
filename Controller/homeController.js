@@ -7,6 +7,9 @@ const mongodb = require('mongodb');
 const url = process.env.MONGO_URL;
 const nameID = 'nameID';
 
+const fetch = require('node-fetch');
+
+
 
 router.use(bodyParser.urlencoded({
     extended: false,
@@ -43,22 +46,25 @@ const getHome = require('./modules/getHome');
  * Called mongodb again because of crashes when redirecting from deleteAcc / remCooke
  */
 function addName(req, res) {
-  mongodb.MongoClient.connect(url, {useUnifiedTopology: true}, (err, client) => {
+  mongodb.MongoClient.connect(url, {
+    useUnifiedTopology: true
+  }, (err, client) => {
     if (err) {
       console.log('MongoDB Error');
     } else {
       db = client.db(process.env.DB_NAME);
       user = db.collection('user');
-      user.insertOne(
-          {
-            name: req.body.firstname,
-          },
-      );
+      user.insertOne({
+        name: req.body.firstname,
+      }, );
       const nameNow = req.body.firstname;
-      user.findOne({name: nameNow}, (err, user) => {
+      user.findOne({
+        name: nameNow
+      }, (err, user) => {
         if (err) {
           console.log('It is not working');
         } else {
+          console.log(user._id);
           req.session.nameID = user._id;
           res.render('form', {
             info: user,
@@ -78,13 +84,16 @@ router.post('/name', urlencodedParser, addName);
  * @param {object} res response object
  */
 function volgendeFilm(req, res) {
-  user.updateOne(
-      {_id: req.session.nameID},
-      {
-        $set: {movieChoice1: req.body.movie},
-      },
-  );
-  user.findOne({_id: req.session.nameID}, (err, user) => {
+  user.update({
+    _id: req.session.nameID
+  }, {
+    $set: {
+      movieChoice1: req.body.movie
+    },
+  }, );
+  user.findOne({
+    _id: req.session.nameID
+  }, (err, user) => {
     if (err) {
       console.log('It is not working');
     } else {
@@ -103,24 +112,35 @@ router.post('/volgendeFilm-succes', urlencodedParser, volgendeFilm);
  * @param {*} req request
  * @param {*} res response
  */
-const getData = require('./modules/getAPI');
-
 function succesRefresh(req, res) {
   if (!req.session.nameID) {
     res.redirect('/');
   } else {
-    user.findOne({_id: req.session.nameID}, (err, user) => {
+    user.findOne({
+      _id: req.session.nameID
+    }, (err, user) => {
       if (err) {
         console.log('It is not working');
       } else {
-        const choice = encodeURI(user.movieChoice1);
-        const dataURL = `http://www.omdbapi.com/?t=${choice}&apikey=${process.env.OMDB_KEY}`;
-        getData(dataURL);
-        res.render('succes', {
-          info: user,
-        });
+        const getMovie = async (url, url1) => {
+          try {
+            url = 'http://www.omdbapi.com/?t=' + encodeURI(user.movieChoice1) + '&apikey=8f925772';
+            url1 = 'http://www.omdbapi.com/?t=' + encodeURI(user.movieChoice2) + '&apikey=8f925772';
+            const response = await fetch(url);
+            const response1 = await fetch(url1);
+            const json = await response.json();
+            const json1 = await response1.json();
+            res.render('succes', {
+              info: user,
+              movie: json,
+              movie1: json1,
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        getMovie();
       }
-
     });
   }
 }
@@ -132,13 +152,16 @@ function succesRefresh(req, res) {
  * @param {*} res response
  */
 function succesMan(req, res) {
-  user.updateOne(
-      {_id: req.session.nameID},
-      {
-        $set: {movieChoice2: req.body.movie1},
-      },
-  );
-  user.findOne({_id: req.session.nameID}, (err) => {
+  user.update({
+    _id: req.session.nameID
+  }, {
+    $set: {
+      movieChoice2: req.body.movie1
+    },
+  }, );
+  user.findOne({
+    _id: req.session.nameID
+  }, (err) => {
     if (err) {
       console.log('It is not working');
     } else {
@@ -157,7 +180,9 @@ router.get('/succes', urlencodedParser, succesRefresh);
  * @param {object} res response
  */
 function deleteAccount(req, res) {
-  user.deleteMany({_id: req.session.nameID});
+  user.deleteMany({
+    _id: req.session.nameID
+  });
   req.session.destroy((err) => {
     if (err) {
       res.redirect('/succes');
@@ -191,6 +216,5 @@ router.post('/cookieRemovie', removeCookie);
 
 const matchController = require('./matchController')
 router.use('/user', matchController);
-
 
 module.exports = router;
