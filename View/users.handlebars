@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oraboni</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <a href="/succes"><p>Go to profile</p></a>
+    {{> filter}}
+    {{#if users.length}}
+    <h1>{{firstName}} {{lastName}}</h1>
+    {{/if}}
+    {{#each users}}
+        <div class="people_list">
+            <h1 class="people_list_item">{{this.name}}</h1>
+            <p class="people_list_item">{{this._id}}</p>
+            <p class="people_list_item">{{this.movieChoice1}}</p>
+            <p class="people_list_item">{{this.movieChoice2}}</p>
+        </div>
+    {{else}}
+    <p>No users match your filter</p>
+    {{/each}}
+</body>
+</html>
