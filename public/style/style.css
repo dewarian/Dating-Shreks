@@ -1,11 +1,7 @@
+/* General */
 @font-face {
   font-family: 'Hollywood';
   src: url('font/sf-hollywood-hills.regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'MoviePoster';
-  src: url('font/durango-western-eroded.regular.otf') format('opentype');
 }
 
 MoviePosterPersonalUse-axyeE
@@ -20,25 +16,54 @@ body {
   font-family: 'Work Sans', sans-serif;
 }
 
-h1, h2, label p {
+h1, h2, form p {
   text-align: center;
   font-family: 'Hollywood', sans-serif;
   letter-spacing: 2px;
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2em;
 }
 
+h2 {
+  margin: 20px 0;
+  text-align: center;
+}
+
+img {
+  object-fit: cover;
+  /* height: 580px; */
+  max-height: 580px;
+  width: 100%;
+  height: auto;
+  filter: grayscale(100%);
+}
+
+button {
+  display: block;
+  text-decoration: none;
+  border-radius: 3px;
+  border: none;
+  padding: 20px 30px;
+  margin: 20px auto;
+
+  font-size: 1em;
+  font-family: 'Work Sans', sans-serif;
+}
+
+/* Forms */
 form {
   margin-bottom: 60px;
+  text-align: center;
 }
 
-label p {
-  font-size: 2em;
-  margin-bottom: 15px;
+#add {
+  display: block;
+  margin: 20px 0 5px 20px;
 }
 
+/* Succes list */
 ul {
   list-style: none;
   padding: 0;
@@ -51,98 +76,16 @@ li {
   padding: 20px;
   padding-top: 0px;
   margin: 80px auto;
-  position: relative;
   height: auto;
-}
-
-li img {
-  object-fit: cover;
-  max-height: 300px;
-
-  filter: grayscale(100%);
-}
-
-li::before {
-  content: "";
-  background-image: url('../../website/img/film-top.png');
-  position: absolute;
-  z-index: -1;
-  top: -50px;
-  left: 0;
-  height: 63px;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-size: 100%;
-}
-
-li::after {
-  content: "";
-  background-image: url('../../website/img/film-bottom.png');
-  position: absolute;
-  z-index: -1;
-  bottom: -70px;
-  left: 0;
-  height: 93px;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-size: 100%;
-}
-
-.poster {
-  width: 100%;
-  height: auto;
-}
-
-h2 {
-  margin: 20px 0;
-  text-align: center;
-}
-
-form {
-  text-align: center;
+  max-width: 400px;
 }
 
 label img {
-transition: ease 0.3s;
-width: 20%;
-margin: 2vw;
-}
-
-label button {
-  display: block;
-  text-decoration: none;
-  border-radius: 3px;
-  border: none;
-  font-size: 1em;
-  padding: 20px 30px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-label button:hover {
-  cursor: pointer;
-  background-color: rgb(205, 205, 205);
-}
-
-label button:active {
-  border-style: dashed;
-  border-color: rgb(87, 87, 87);
-}
-
-label button:focus {
-
-}
-
-#add {
-  display: block;
-  margin: 20px 0 5px 20px;
-}
-
-[type=radio] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
+  transition: ease 0.3s;
+  object-fit: cover;
+  height: 200px;
+  width: auto;
+  margin: 10px;
 }
 
 [type=radio] + img {
@@ -150,11 +93,71 @@ label button:focus {
 }
 
 [type=radio]:checked + img {
-  width: 24%;
-  outline: 5px solid rgb(241, 142, 12);
+  border: 5px solid rgb(148, 90, 13);
 }
 
+form p {
+  font-size: 2em;
+  margin-bottom: 15px;
+}
 
+button:hover {
+  cursor: pointer;
+  background-color: rgb(205, 205, 205);
+}
+
+button:active {
+  border-style: dashed;
+  border-width: thin;
+  border-color: rgb(87, 87, 87);
+}
+
+button:focus {
+  border-style: dashed;
+  border-width: thin;
+  border-color: white;
+}
+
+/* Movie ticket effect */
+li {
+  position: relative;
+}
+
+li::before, li::after{
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+li::before {
+  background-image: url('../img/film-top.png');
+  top: -50px;
+  height: 63px;
+}
+
+li::after {
+  background-image: url('../img/film-bottom.png');
+  bottom: -70px;
+  height: 93px;
+}
+
+/* Hide form inputs */
+.visually-hidden {
+  /* bron: a11y */
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* Responsive */
 @media only screen and (min-width: 800px) {
   li {
     padding-left: 30px;
@@ -164,6 +167,13 @@ label button:focus {
   li::before {
     top: -60px;
   }
+
+  label img {
+    height: 450px;
+    max-width: none;
+    width: auto;
+    margin: 20px;
+  }
 }
 
 @media only screen and (min-width: 1050px) {
@@ -172,6 +182,7 @@ label button:focus {
   }
 
   h1 {
+    font-size: 3em;
     margin-bottom: 10px;
   }
 
@@ -186,10 +197,5 @@ label button:focus {
     margin-left: 20px;
     margin-right: 20px;
     min-width: 420px;
-  }
-
-  li img {
-    max-width: 500px;
-    max-height: 400px;
   }
 }
