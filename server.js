@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const fetch = require('node-fetch');
+const helmet = require('helmet');
 require('dotenv').config();
 
 
@@ -64,3 +65,40 @@ app.use('/', matchController);
 app.use('/', homeController);
 
 app.listen(port, listen)
+
+
+// Set up helmet
+app.use(helmet());
+
+//Helmet headers
+// Content-Security-Policy: helps protecting against malicious injection of e.g. JS, CSS and PLugins
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'"]
+  }
+}));
+
+// X-DNS-Prefetch-Control: disable DNS prefetching
+app.use(helmet.dnsPrefetchControl()); // disabled by default
+
+// X-Frame-Options: Polices clickjacking attacks (iframes) by setting the X-Frame-Options header
+app.use(helmet.frameguard({ action: 'deny' })); // don't allow page to be put in any iframes
+
+// X-Powered-By: Hides the fact the website is powered by Express. Hackers can otherwise exploit vulnerabilities in Express/Node
+app.use(helmet.hidePoweredBy());
+
+// X-Download-Options: prevents opening HTML files in the context of the site, what people can do on old versions of Internet Explorer)
+app.use(helmet.ieNoOpen());
+
+// X-Content-Type-Options: prevents browser from sniffing MIME files and instead blocks the resource if the server's wrong about the type of file
+app.use(helmet.noSniff());
+
+// X-Permitted-Cross-Domain-Policies: Prevents Adobe Flash and Acrobat form loading content on website
+app.use(helmet.permittedCrossDomainPolicies()); // none by default
+
+// Referrer Policy: Controls behavior of Referer header by setting the Referrer-Policy header
+app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));
+
+// X-XSS-Protection: Basic protection from particular cross-site scripting (XSS) attacks: hackers take control of JS in the browser
+app.use(helmet.xssFilter());
