@@ -1,5 +1,3 @@
-// The line above means that I can shadow user in funcitons. This is nice for me because it f
-// its my coding style and I wouldn't want to delete the user
 // Setup for all dependencies
 const express = require('express');
 const handlebars = require('express-handlebars');
