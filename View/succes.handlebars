@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms</title>
+    <link rel="stylesheet" href="style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h1>{{ info.name }}, your choices are:</h1>
+    <ul>
+
+      <li>
+        <h2>1: {{ info.movieChoice1 }}</h2>
+        <img class="poster" src="{{ movie.Poster }}" alt=" Movie Poster of {{ info.movieChoice1 }}">
+        <p>Year: {{ movie.Year }}</p>
+        <p>Decription: {{ movie.Plot }}</p>
+        <p>IMDB Rating: {{ movie.Ratings.0.Value }}</p>
+      </li>
+
+      <li>
+        <h2>2: {{ info.movieChoice2 }} </h2>
+        <img class="poster" src="{{ movie1.Poster }}" alt=" Movie Poster of {{ info.movieChoice2 }}">
+        <p>Year: {{ movie1.Year }}</p>
+        <p>Decription: {{ movie1.Plot }}</p>
+        <p>IMDB Rating: {{ movie1.Ratings.0.Value }}</p>
+      </li>
+    </ul>
+
+    <form action="/delete" method="POST">
+      <label for="delete">
+        <p>Would you like to delete your account?</p>
+        <button>Delete</button>
+      </label>
+    </form>
+
+    <form action="/cookieRemovie" method="POST">
+      <label for="remove">
+        <p>Would you like to logout (Remove session)?</p>
+        <button>Log Out</button>
+      </label>
+    </form>
+
+    <script src="server.js"></script>
+  </body>
+</html>
