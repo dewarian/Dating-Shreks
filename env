@@ -1,3 +1,0 @@
-SESSION_SECRET=LUIGI
-DB_NAME=shreks
-MONGO_URL=mongodb+srv://bommezijn:bommezijn1@bt-dating-yddzz.mongodb.net/shreks?retryWrites=true&w=majority
