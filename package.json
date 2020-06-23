@@ -9,7 +9,11 @@
     "lint": "./node_modules/.bin/eslint server.js"
   },
   "author": "Parvin Bungenberg de Jong",
-  "license": "ISC",
+  "contributors": [
+    "uxtothemax",
+    "Nathan Bommezijn"
+  ],
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
     "connect-mongodb-session": "^2.3.2",
@@ -19,13 +23,15 @@
     "express-session": "^1.17.1",
     "handlebars": "^4.7.6",
     "mongodb": "^3.5.8",
-    "slug": "^3.0.1"
+    "node-fetch": "^2.6.0",
+    "slug": "^3.0.1",
+    "helmet": "^3.23.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.20.2",
     "nodemon": "^2.0.4",
-    "prettier": "2.0.5"
+    "prettier": "^2.0.5"
   }
 }
