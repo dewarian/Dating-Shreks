@@ -195,3 +195,32 @@ li::after {
     min-width: 420px;
   }
 }
+
+.people_list {
+  background-color: #bf6f36;
+  border-radius: 10px;
+  display: inline-block;
+  margin: 0 10px 10px 10px;
+  padding: 0 10px 10px 10px;
+}
+
+h1.people_list_item{
+  margin: 0 0 30px 0 ;
+}
+
+.filter{
+  background-color: #eda46d;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 10vw 30px 10vw;
+}
+
+fieldset {
+  border: none;
+}
+
+.pref{
+  margin: 10px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 2em;
+}
