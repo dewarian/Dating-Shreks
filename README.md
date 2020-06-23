@@ -1,5 +1,6 @@
 # Dating-App
-
+<img src="https://user-images.githubusercontent.com/13199349/85468844-3fa57880-b5ad-11ea-8ffb-9a98a8feaee7.png" align="right"
+     alt="Size Limit logo by Anton Lovchikov" width="120" height="178">
 #### Hey Shrek!
 What nice of you to look at our app. This is a dating app, well actually, This is just a feature we made for the Dating app
 We are going to make later on. So the feature we made consists of a system which is kind of like a login. You make a username
