@@ -15,11 +15,11 @@ const url = process.env.MONGO_URL;
 const app = express();
 const port = process.env.PORT || 3000;
 const urlencodedParser = bodyParser.urlencoded({
-  extended: false
+  extended: false,
 });
 const nameID = 'nameID';
-let db = null;
-let user = null;
+const db = null;
+const user = null;
 
 const sessionSecret = process.env.SESSION_SECRET;
 const storeThing = new MongoDBStore({ // Hulp van Victor Boucher
@@ -59,31 +59,31 @@ app.use(express.static(path.join(__dirname, 'public')));
 function listen() {
   console.log('app started at port:', port);
 }
-const matchController = require('./controller/matchController')
-const homeController = require('./controller/homeController')
+const matchController = require('./Controller/matchController');
+const homeController = require('./Controller/homeController');
 app.use('/', matchController);
 app.use('/', homeController);
 
-app.listen(port, listen)
+app.listen(port, listen);
 
 
 // Set up helmet
 app.use(helmet());
 
-//Helmet headers
+// Helmet headers
 // Content-Security-Policy: helps protecting against malicious injection of e.g. JS, CSS and PLugins
 app.use(helmet.contentSecurityPolicy({
   directives: {
-    defaultSrc: ["'self'"],
-    styleSrc: ["'self'"]
-  }
+    defaultSrc: ['\'self\''],
+    styleSrc: ['\'self\''],
+  },
 }));
 
 // X-DNS-Prefetch-Control: disable DNS prefetching
 app.use(helmet.dnsPrefetchControl()); // disabled by default
 
 // X-Frame-Options: Polices clickjacking attacks (iframes) by setting the X-Frame-Options header
-app.use(helmet.frameguard({ action: 'deny' })); // don't allow page to be put in any iframes
+app.use(helmet.frameguard({action: 'deny'})); // don't allow page to be put in any iframes
 
 // X-Powered-By: Hides the fact the website is powered by Express. Hackers can otherwise exploit vulnerabilities in Express/Node
 app.use(helmet.hidePoweredBy());
@@ -98,7 +98,7 @@ app.use(helmet.noSniff());
 app.use(helmet.permittedCrossDomainPolicies()); // none by default
 
 // Referrer Policy: Controls behavior of Referer header by setting the Referrer-Policy header
-app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));
+app.use(helmet.referrerPolicy({policy: 'no-referrer'}));
 
 // X-XSS-Protection: Basic protection from particular cross-site scripting (XSS) attacks: hackers take control of JS in the browser
 app.use(helmet.xssFilter());
