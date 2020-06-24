@@ -1,6 +1,6 @@
 As who do you want to sign-in? An employer or a food truck?# Dating-App [![Build Status](https://travis-ci.org/dewarian/Dating-Shreks.svg?branch=master)](https://travis-ci.org/dewarian/Dating-Shreks)
 <img src="https://user-images.githubusercontent.com/13199349/85468844-3fa57880-b5ad-11ea-8ffb-9a98a8feaee7.png" align="right"
-     alt="" width="110" height="168">
+     alt="" width="110" height="168">  
 ## Hey Shrek!
 You may want to rewind and watch an old classic or watch a great story... But there is no one to watch a movie with. 
 Shrek's Dating-app tries to solve that for you, find someone who enjoys the same type of film you do.
