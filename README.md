@@ -9,9 +9,9 @@ Shrek's Dating-app tries to solve that for you, find someone that enjoys the sam
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
-  <a href="#how-to-install">How To Use</a> •
+  <a href="#how-to-use">How To Use</a> •
   <a href="https://github.com/dewarian/Dating-Shreks/archive/master.zip">Download</a> •
-  <a href="/wiki">Read Wiki</a> •
+  <a href="https://github.com/dewarian/Dating-Shreks/wiki">Read Wiki</a> •
   <a href="#credits">Credits</a> •
   <a href="#license">License</a>
 </p>
