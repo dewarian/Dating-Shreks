@@ -1,9 +1,9 @@
-# Dating-App [![Build Status](https://travis-ci.org/dewarian/Dating-Shreks.svg?branch=master)](https://travis-ci.org/dewarian/Dating-Shreks)
+As who do you want to sign-in? An employer or a food truck?# Dating-App [![Build Status](https://travis-ci.org/dewarian/Dating-Shreks.svg?branch=master)](https://travis-ci.org/dewarian/Dating-Shreks)
 <img src="https://user-images.githubusercontent.com/13199349/85468844-3fa57880-b5ad-11ea-8ffb-9a98a8feaee7.png" align="right"
      alt="" width="110" height="168">
 ## Hey Shrek!
-You may want to rewind and watch a old classic or watch a great story... But there is no one to watch it with. 
-Shrek's Dating-app tries to solve that for you, find someone that enjoys the same type of films you do.
+You may want to rewind and watch an old classic or watch a great story... But there is no one to watch a movie with. 
+Shrek's Dating-app tries to solve that for you, find someone who enjoys the same type of film you do.
 
 <h3 align="center">Cherry pick your next moviedate</h3>
 
@@ -19,15 +19,15 @@ Shrek's Dating-app tries to solve that for you, find someone that enjoys the sam
 ## Key features
 
 - Create an account with movie preferences
-- Pick your favourite movies from the selection
-- User finding potentional Netlfix dates
+- Pick your favorite movies from the selection
+- User finding potential Netlfix dates
 
 ## How to use
-- Navigate with your browser (netscape?) to [dating-shreks.herokuapps.com](dating-shreks.herokuapps.com).
+- Navigate with your browser (Netscape?) to [dating-shreks.herokuapps.com](dating-shreks.herokuapps.com).
 - Enter name
 - Select movie
 - Navigate to users
-- Edit / remove user if admin rights.
+- Edit / remove the user if admin rights.
 
 ### Or clone it and run locally
 - Create folder where to clone it to, open terminal
